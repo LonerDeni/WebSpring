@@ -7,7 +7,6 @@ import java.nio.file.Path;
 
 public class SimpleMainHandlers {
     private final static int PORT = 9999;
-    ;
 
 
     public static void main(String[] args) throws IOException {

@@ -16,33 +16,29 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class SimpleServerHandlers {
-    public Thread thread;
-    public Socket socket;
-    public BufferedReader in;
-    public BufferedOutputStream out;
-    final List<String> validPaths = List.of("/index.html", "/spring.svg", "/spring.png", "/resources.html", "/styles.css",
+    private final List<String> validPaths = List.of("/index.html", "/spring.svg", "/spring.png", "/resources.html", "/styles.css",
             "/app.js", "/links.html", "/forms.html", "/classic.html", "/events.html", "/events.js");
-    public ExecutorService threadPool = Executors.newFixedThreadPool(3);
+    private ExecutorService threadPool = Executors.newFixedThreadPool(3);
     private final Map<String, Map<String, SimpleHandler>> handlers = new HashMap<>();
 
     public void listen(int port) throws IOException {
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             System.out.println("Refactoring.Server started");
             while (true) {
-                socket = serverSocket.accept();
-                runCon();
+                Socket socket = serverSocket.accept();
+                runCon(socket);
             }
         }
     }
 
-    public void runCon() {
-        thread = new Thread(new Runnable() {
+    public void runCon(Socket socket) {
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 while (true) {
                     try {
-                        in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                        out = new BufferedOutputStream(socket.getOutputStream());
+                        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                        BufferedOutputStream out = new BufferedOutputStream(socket.getOutputStream());
                         String requestLine;
                         requestLine = in.readLine();
                         SimpleRequest request = SimpleRequest.createRequest(requestLine);

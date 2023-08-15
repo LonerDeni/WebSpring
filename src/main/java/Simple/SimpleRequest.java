@@ -10,12 +10,10 @@ public class SimpleRequest {
     private String method;
     private String path;
     private String body;
-    private List<String> headers;
 
-    public SimpleRequest(String method, String path, List<String> headers, String body) {
+    public SimpleRequest(String method, String path, String body) {
         this.path = path;
         this.method = method;
-        this.headers = headers;
         this.body = body;
     }
 
@@ -39,22 +37,7 @@ public class SimpleRequest {
         List<String> headers = new ArrayList<>();
         String body;
 
-        //add Headers
-        String headerLine = "";
         int count = 1;
-        do {
-            if (parts.size() > count) {
-                headerLine = parts.get(count);
-                count += 1;
-                if (!headerLine.isEmpty()) {
-                    headers.add(headerLine);
-                }
-            } else {
-                headerLine = "";
-            }
-        }
-        while (!headerLine.equals(""));
-
         StringBuilder builder = new StringBuilder();
 
         //add Body
@@ -65,7 +48,7 @@ public class SimpleRequest {
         }
         body = builder.toString();
 
-        return new SimpleRequest(method, path, headers, body);
+        return new SimpleRequest(method, path, body);
     }
 
     public String getMethod() {
@@ -78,9 +61,5 @@ public class SimpleRequest {
 
     public String getBody() {
         return body;
-    }
-
-    public List<String> getHeaders() {
-        return headers;
     }
 }
