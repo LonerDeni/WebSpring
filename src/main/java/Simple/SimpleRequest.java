@@ -142,28 +142,4 @@ public class SimpleRequest {
     public static List<NameValuePair> getQueryParams() {
         return params;
     }
-
-    public static Map<String, List<String>> getPostParam(String name) {
-        Map<String, List<String>> queryParams = new HashMap<>();
-        for (NameValuePair pair : params) {
-            if (pair.getName().equals(name)) {
-                if (!queryParams.containsKey(pair.getName())) {
-                    queryParams.put(pair.getName(), new ArrayList<>());
-                }
-                queryParams.get(pair.getName()).add(pair.getValue());
-            }
-        }
-        return queryParams;
-    }
-
-    public static Map<String, List<String>> getPostParams() {
-        Map<String, List<String>> queryParams = new HashMap<>();
-        for (NameValuePair pair : params) {
-            if (!queryParams.containsKey(pair.getName())) {
-                queryParams.put(pair.getName(), new ArrayList<>());
-            }
-            queryParams.get(pair.getName()).add(pair.getValue());
-        }
-        return queryParams;
-    }
 }
