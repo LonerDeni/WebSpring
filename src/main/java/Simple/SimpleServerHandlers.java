@@ -1,9 +1,6 @@
 package Simple;
 
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Files;
@@ -37,12 +34,11 @@ public class SimpleServerHandlers {
             public void run() {
                 while (true) {
                     try {
-                        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                        BufferedInputStream in = new BufferedInputStream(socket.getInputStream());
                         BufferedOutputStream out = new BufferedOutputStream(socket.getOutputStream());
-                        String requestLine;
-                        requestLine = in.readLine();
-                        SimpleRequest request = SimpleRequest.createRequest(requestLine);
-
+                        final int limit = 4096;
+                        in.mark(limit);
+                        SimpleRequest request = SimpleRequest.createRequest(in, limit);
                         String path = request.getPath();
 
                         if (!validPaths.contains(path)) {
