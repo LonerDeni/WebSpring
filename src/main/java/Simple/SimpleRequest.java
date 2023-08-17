@@ -107,6 +107,7 @@ public class SimpleRequest {
                 final var bodyBytes = in.readNBytes(length);
 
                 body = new String(bodyBytes);
+                params.addAll(URLEncodedUtils.parse(body,StandardCharsets.UTF_8));
                 System.out.println(body);
             }
         }
